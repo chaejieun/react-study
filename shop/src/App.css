@@ -45,6 +45,7 @@
   text-align: center;
   background-image: url('./background.jpg');
   background-size: cover;
+  color: white;
 }
 
 .container{
