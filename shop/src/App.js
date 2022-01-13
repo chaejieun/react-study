@@ -18,11 +18,11 @@ function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link>
-                <Link to="/">Home</Link>
+              <Nav.Link to="/" as={Link}>
+                Home
               </Nav.Link>
-              <Nav.Link>
-                <Link to="/detail">Detail</Link>
+              <Nav.Link to="/detail" as={Link}>
+                Detail
               </Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -65,9 +65,15 @@ function App() {
           </div>
         </Route>
 
-        <Route path="/detail">
+        {/* 
+            :id 
+          뒤에 파라미터가 오든 이동시킬 수 있는 URL의 파라미터 문법 
+          1. 콜론 뒤에 맘대로 작성
+          2. 여러개 사용 가능 
+        */}
+        <Route path="/detail/:id">
           <div>디테일 페이지에요</div>
-          <Detail />
+          <Detail shoes={shoes} />
           {/* 이 부분을 다른 페이지에서 export할 수 있도록 컴포넌트화 작업으로 처리함 -> Detail.js 
         <div className="container">
           <div className="row">
