@@ -6,6 +6,7 @@ import "./App.css";
 import Data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
+import axios from "axios";
 
 function App() {
   let [shoes, shoes변경] = useState(Data);
@@ -62,6 +63,35 @@ function App() {
                 return <Card shoes={shoes[i]} i={i} key={i} />;
               })}
             </div>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                // AJAX 통신
+                // .them() -> 성공하면
+                // .catch() -> 실패 시 처리
+                // 생 자바스크립트 로 가져오는 ajax는
+                // fetch('https://codingapple1.github.io/shop/data2.json').then()으로 사용 가능
+                // axios를 쓰면 JSON을 Object로 자동으로 바꿔줌
+
+                // AJAX POST _ 서버에 데이터를 보내고 싶을 때  POST 요청하는 법
+                // axios.post("서버URL", { id: "codingapple", pw: 1234 });
+
+                // 로딩중이라는 UI 띄움
+
+                axios
+                  .get("https://codingapple1.github.io/shop/data2.json")
+                  .then((result) => {
+                    // 로딩중이라는 UI 안보이게 처리
+                    shoes변경([...shoes, ...result.data]); // 기존에 있던 shoes에 result.data를 추가 시켜주는 technic
+                  })
+                  .catch(() =>
+                    // 로딩중이라는 UI 안보이게 처리
+                    console.log("실패했어요")
+                  );
+              }}
+            >
+              더보기
+            </button>
           </div>
         </Route>
 
