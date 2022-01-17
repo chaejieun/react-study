@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -8,8 +8,15 @@ import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
 
+//  context 만들기
+// 1. createContext 같은 변수값을 공유할 범위 생성
+// 2. 재고context.Provider -> 같은 값을 공유할 HTML을 범위로 싸매기
+// 2-2. value={공유하는값}
+export let 재고context = React.createContext();
+
 function App() {
   let [shoes, shoes변경] = useState(Data);
+  let [재고, 재고변경] = useState([10, 11, 12]);
 
   return (
     <>
@@ -58,11 +65,14 @@ function App() {
           </div>
 
           <div className="container">
-            <div className="row">
-              {shoes.map((a, i) => {
-                return <Card shoes={shoes[i]} i={i} key={i} />;
-              })}
-            </div>
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {shoes.map((a, i) => {
+                  return <Card shoes={shoes[i]} i={i} key={i} />;
+                })}
+              </div>
+            </재고context.Provider>
+
             <button
               className="btn btn-primary"
               onClick={() => {
@@ -103,7 +113,7 @@ function App() {
         */}
         <Route path="/detail/:id">
           <div>디테일 페이지에요</div>
-          <Detail shoes={shoes} />
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
           {/* 이 부분을 다른 페이지에서 export할 수 있도록 컴포넌트화 작업으로 처리함 -> Detail.js 
         <div className="container">
           <div className="row">
@@ -144,7 +154,10 @@ function App() {
   );
 }
 
+// 재고라는 data를 마음데로 가져다 쓸 수 있음
 function Card(props) {
+  let 재고 = useContext(재고context); // context로 공유된 값 사용하기
+
   return (
     <div className="col-md-4">
       <img src={props.shoes.img} width="100%" alt="" />{" "}
@@ -159,8 +172,18 @@ function Card(props) {
       <p>
         {props.shoes.content} & {props.shoes.price}
       </p>
+      {/* props 대신 context를 사용하자 */}
+      <Test></Test>
     </div>
   );
 }
+
+function Test() {
+  let 재고 = useContext(재고context);
+  return <p>{재고[0]}</p>;
+}
+
+// Redux라는 라이브러리 :
+// 모든 컴포넌트파일들이 같은 값을 공유할 수 있는 저장공간 생성가능
 
 export default App;

@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom"; // 페이지 뒤로가기 및 활용을 위한 리액트 라우터 돔
 import styled from "styled-components";
+import App from "./App";
 import "./Detail.scss";
+import { 재고context } from "./App.js";
 
 // component가 많아지면
 // css 작성 고민이 많아짐
@@ -45,6 +47,7 @@ let 파란제목 = styled(제목)`
 function Detail(props) {
   let [alert, setAlert] = useState(true);
   let [inputData, setInputData] = useState("");
+  let 재고 = useContext(재고context);
 
   // useEffect
   // LifeCycle의 Hook과 같은 기능을 함
