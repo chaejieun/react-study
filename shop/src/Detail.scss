@@ -3,11 +3,23 @@
 // 모든 페이지에 필요한 CSS reset 이런것들을 넣는 것.
 @import './Reset.scss'; // 이런 식으로 공통으로 쓰는 부분 처리가 가능함
 
-$메인칼라 :  #ff0000;
+$메인칼라 :  black;
 
 .red { 
     color: $메인칼라;
 }
+
+// 애니메이션 시작 때 적용할 css
+.wow-enter {
+    opacity: 0;
+}
+
+// 애니메이션 동작 때 적용할 css
+.wow-enter-activ {
+    opacity: 1;
+    transition: all 500ms;
+}
+
 
 // div.container h4{ 
 //     color: blue;

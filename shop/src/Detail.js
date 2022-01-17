@@ -4,6 +4,9 @@ import styled from "styled-components";
 import App from "./App";
 import "./Detail.scss";
 import { 재고context } from "./App.js";
+import { Nav } from "react-bootstrap";
+
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 
 // component가 많아지면
 // css 작성 고민이 많아짐
@@ -47,6 +50,10 @@ let 파란제목 = styled(제목)`
 function Detail(props) {
   let [alert, setAlert] = useState(true);
   let [inputData, setInputData] = useState("");
+
+  let [누른탭, 누른탭변경] = useState(0);
+  let [스위치, 스위치변경] = useState(false);
+
   let 재고 = useContext(재고context);
 
   // useEffect
@@ -120,10 +127,69 @@ function Detail(props) {
           >
             뒤로가기2
           </button>
+
+          {/* 
+                    [ Tab UI 만드는 법 ]
+              1. UI상태를 true/false state로 저장해둠
+              2. state에 따라 UI 보이게 안보이게 
+            */}
+          <Nav variant="tabs" defaultActiveKey="link-0">
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-0"
+                onClick={() => {
+                  누른탭변경(0);
+                  스위치변경(false);
+                }}
+              >
+                Active
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link
+                eventKey="link-1"
+                onClick={() => {
+                  누른탭변경(1);
+                  스위치변경(false);
+                }}
+              >
+                Option 2
+              </Nav.Link>
+            </Nav.Item>
+          </Nav>
+
+          {/* animation 추가는? 
+          1. cssTransition으로 애니메이션 필요한 곳 감싸기
+          2. in, classNames, timeout 넣기 
+          3. class로 애니메이션 넣기
+          4. 원할 때 스위치 켜기
+          */}
+          <CSSTransition in={스위치} classNames="wow" timeout={500}>
+            <TabContent 누른탭={누른탭} 스위치변경={스위치변경} />
+          </CSSTransition>
         </div>
       </div>
     </div>
   );
+}
+
+function TabContent(props) {
+  // tabContent가 등장할 때 스위치 켜주기
+  useEffect(() => {
+    props.스위치변경(true);
+  });
+
+  if (props.누른탭 === 0) {
+    return <div>내용0</div>;
+  } else if (props.누른탭 === 1) {
+    return <div>내용1</div>;
+  } else if (props.누른탭 === 2) {
+    return <div>내용2</div>;
+  }
+}
+
+function Info(props) {
+  return <p>재고 : {props.재고[0]}</p>;
 }
 
 export default Detail;
