@@ -7,6 +7,7 @@ import Data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
+import Cart from "./Cart.js";
 
 //  context 만들기
 // 1. createContext 같은 변수값을 공유할 범위 생성
@@ -133,6 +134,7 @@ function App() {
         </div>
         */}
         </Route>
+
         {/* '/' 경로로 들어왔을 때와, '/detail'로 들어왔을 때에도 메인페이지 내용이 보이는 이유는?
           '/' <- 이 슬래쉬가 메인에도 포함되어 있기 때문에 '메인페이지에요 와 디테일 페이지에요'가 함께 보이는 이유!
           ----> 그것을 막기 위해서는 [exact]라는 것을 넣으면, 무조건 문자가 일치하는 것만 타게 됌
@@ -146,6 +148,9 @@ function App() {
         {/*  
         URL에 맞는 HTML을 갈아치우는 걸 흉내내는 것이기 때문에 서로 다른 HTML이 아님!
       */}
+        <Route path="/cart">
+          <Cart />
+        </Route>
         <Route path="/:id">
           <div>아무거나 적었을 때 이거 보여주기</div>
         </Route>

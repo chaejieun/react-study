@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { createStore } from "redux";
 // router setting
 //import * as serviceWorker from "./serviceWorker";
 
@@ -11,10 +12,58 @@ import { BrowserRouter } from "react-router-dom"; // react-router-dom 초기 셋
 // (HashRouter로도 사용 가능함 (#기호 작동 -> #기호는 서버에 절대 전송되지 않는다. react가 안정적으로 처리해줄 수 있음 ))
 // Browser와 HashRouter의 차이
 
+import { Provider } from "react-redux";
+// provider로 감싼 컴포넌트는 같은 state를 공유할 수 있음
+// provider로 보낸 store는 모든 state에서 사용 가능
+
+// redux 쓰는 이유
+// 1. 복잡한 props 전송이 필요없음
+// 2. state 데이터 관리 가능
+
+// let store = createStore(() => {
+//   return [
+//     { id: 0, name: "나이키조던신발", quan: 2 },
+//     { id: 1, name: "구찌신발", quan: 4 },
+//   ];
+// });
+
+let 초기값 = [
+  { id: 0, name: "나이키조던신발", quan: 2 },
+  { id: 1, name: "구찌신발", quan: 4 },
+];
+
+// state 데이터의 수정방법을 정의해놓자 : reducer
+// reducer 세팅법
+// reducer는 그냥 수정된 state를 뱉어내는 함수
+function reducer(state = 초기값, 액션) {
+  // state에 초기값을 선택
+  if (액션.type === "수량증가") {
+    // 수량 증가일 경우
+    // 복사본 만들어주고, 해당 숫자 +1 시켜주기
+    let copy = [...state]; // copy본 만들기
+    copy[0].quan++;
+    return copy;
+  } else if (액션.type === "수량감소") {
+    let copy = [...state];
+    copy[0].quan--;
+    if (copy[0].quan < 0) {
+      copy[0].quan = 0;
+      return copy;
+    }
+    return copy;
+  } else {
+    return state;
+  }
+}
+
+let store = createStore(reducer);
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
