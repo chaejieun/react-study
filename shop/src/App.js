@@ -8,6 +8,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import Detail from "./Detail.js";
 import axios from "axios";
 import Cart from "./Cart.js";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 //  context 만들기
 // 1. createContext 같은 변수값을 공유할 범위 생성
@@ -70,6 +71,11 @@ function App() {
               <div className="row">
                 {shoes.map((a, i) => {
                   return <Card shoes={shoes[i]} i={i} key={i} />;
+                  {
+                    /*컴포넌트엔 보통 onClick 기능을 넣지 않는다!!!!  
+                    X : Card shoes={shoes[i] onClick=...} 
+                    O : Card 컴포넌트 안에서 onClick 기능을 따로 넣어주기 */
+                  }
                 })}
               </div>
             </재고context.Provider>
@@ -162,9 +168,12 @@ function App() {
 // 재고라는 data를 마음데로 가져다 쓸 수 있음
 function Card(props) {
   let 재고 = useContext(재고context); // context로 공유된 값 사용하기
-
+  let history = useHistory();
   return (
-    <div className="col-md-4">
+    <div
+      className="col-md-4"
+      onClick={() => history.push("/detail/" + props.i)}
+    >
       <img src={props.shoes.img} width="100%" alt="" />{" "}
       <img
         src={

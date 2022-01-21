@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 // router setting
 //import * as serviceWorker from "./serviceWorker";
 
@@ -27,6 +27,17 @@ import { Provider } from "react-redux";
 //   ];
 // });
 
+let alert초기값 = true;
+
+function reducer2(state = alert초기값, 액션) {
+  if (액션.type === "alert닫기") {
+    state = false;
+    return state;
+  } else {
+    return state;
+  }
+}
+
 let 초기값 = [
   { id: 0, name: "나이키조던신발", quan: 2 },
   { id: 1, name: "구찌신발", quan: 4 },
@@ -41,13 +52,13 @@ function reducer(state = 초기값, 액션) {
     // 수량 증가일 경우
     // 복사본 만들어주고, 해당 숫자 +1 시켜주기
     let copy = [...state]; // copy본 만들기
-    copy[0].quan++;
+    copy[액션.데이터].quan++;
     return copy;
   } else if (액션.type === "수량감소") {
     let copy = [...state];
-    copy[0].quan--;
-    if (copy[0].quan < 0) {
-      copy[0].quan = 0;
+    copy[액션.데이터].quan--;
+    if (copy[액션.데이터].quan < 0) {
+      copy[액션.데이터].quan = 0;
       return copy;
     }
     return copy;
@@ -56,7 +67,8 @@ function reducer(state = 초기값, 액션) {
   }
 }
 
-let store = createStore(reducer);
+//let store = createStore(reducer);
+let store = createStore(combineReducers({ reducer, reducer2 }));
 
 ReactDOM.render(
   <React.StrictMode>

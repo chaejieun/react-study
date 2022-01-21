@@ -7,6 +7,7 @@ import { 재고context } from "./App.js";
 import { Nav } from "react-bootstrap";
 
 import { SwitchTransition, CSSTransition } from "react-transition-group";
+import { useDispatch } from "react-redux";
 
 // component가 많아지면
 // css 작성 고민이 많아짐
@@ -108,7 +109,20 @@ function Detail(props) {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <Info 재고={props.재고} />
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              props.재고변경([9, 11, 12]);
+              props.dispatch({
+                type: "항목추가",
+                데이터: { id: 찾은상품.id, name: 찾은상품.title, quan: 1 },
+              });
+              history.push("/cart");
+            }}
+          >
+            주문하기
+          </button>
 
           <button
             className="btn btn-danger"
