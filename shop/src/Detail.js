@@ -49,6 +49,7 @@ let 파란제목 = styled(제목)`
 // }
 
 function Detail(props) {
+  let dispatch = useDispatch();
   let [alert, setAlert] = useState(true);
   let [inputData, setInputData] = useState("");
 
@@ -56,6 +57,9 @@ function Detail(props) {
   let [스위치, 스위치변경] = useState(false);
 
   let 재고 = useContext(재고context);
+
+  let [count, setCount] = useState(0);
+  let [age, setAge] = useState(20);
 
   // useEffect
   // LifeCycle의 Hook과 같은 기능을 함
@@ -114,7 +118,7 @@ function Detail(props) {
             className="btn btn-danger"
             onClick={() => {
               props.재고변경([9, 11, 12]);
-              props.dispatch({
+              dispatch({
                 type: "항목추가",
                 데이터: { id: 찾은상품.id, name: 찾은상품.title, quan: 1 },
               });
@@ -183,6 +187,20 @@ function Detail(props) {
           </CSSTransition>
         </div>
       </div>
+      {/* <div>
+        <div>안녕하십니까, 전 {age} </div>
+        <button
+          onClick={() => {
+            setCount(count + 1);
+
+            if (count < 3) {
+              setAge(age + 1);
+            }
+          }}
+        >
+          누르면 한살먹기
+        </button>
+      </div> */}
     </div>
   );
 }

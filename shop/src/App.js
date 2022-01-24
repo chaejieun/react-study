@@ -1,13 +1,17 @@
 /* eslint-disable */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, lazy, Suspense } from "react";
 import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Data from "./data.js";
 import { Link, Route, Switch } from "react-router-dom";
-import Detail from "./Detail.js";
+//import Detail from "./Detail.js";
+// Detail 컴포넌트를 쓸 때에만 import 시킬 수 있는 방법이 lazy loading으로 하자.
+// 페이지에 너무 많은 것을 import할 경우엔 페이지 로딩이 오래 걸릴 수 있음
+let Detail = lazy(() => import("./Detail.js")); // import 를 다이나믹 하게 해주는 방법
 import axios from "axios";
 import Cart from "./Cart.js";
+
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 //  context 만들기
@@ -120,7 +124,9 @@ function App() {
         */}
         <Route path="/detail/:id">
           <div>디테일 페이지에요</div>
-          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
+          <Suspense fallback={<div>로딩중이에요</div>}>
+            <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
+          </Suspense>
           {/* 이 부분을 다른 페이지에서 export할 수 있도록 컴포넌트화 작업으로 처리함 -> Detail.js 
         <div className="container">
           <div className="row">

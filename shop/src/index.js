@@ -47,8 +47,24 @@ let 초기값 = [
 // reducer 세팅법
 // reducer는 그냥 수정된 state를 뱉어내는 함수
 function reducer(state = 초기값, 액션) {
-  // state에 초기값을 선택
-  if (액션.type === "수량증가") {
+  if (액션.type === "항목추가") {
+    // id가 같은 상품이 state에 있으면 push 하지 말고
+    // id가 같은 상품의 quan을 1증가
+    let found = state.findIndex((a) => {
+      return a.id === 액션.데이터.id;
+    });
+    if (found >= 0) {
+      let copy = [...state];
+      copy[found].quan++;
+    } else {
+      let copy = [...state];
+      copy.push(액션.데이터);
+      return copy;
+    }
+  } else if (
+    // state에 초기값을 선택
+    액션.type === "수량증가"
+  ) {
     // 수량 증가일 경우
     // 복사본 만들어주고, 해당 숫자 +1 시켜주기
     let copy = [...state]; // copy본 만들기

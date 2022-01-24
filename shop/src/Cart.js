@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, memo } from "react";
 import { Table } from "react-bootstrap";
 import { connect, useDispatch, useSelector } from "react-redux";
 
@@ -7,10 +7,12 @@ function Cart(props) {
   console.log(state.reducer);
   let dispatch = useDispatch();
 
+  var style = { color: "white" };
+
   return (
     <div>
       <Table responsive>
-        <tr>
+        <tr style={style}>
           <th>#</th>
           <th>상품명</th>
           <th>수량</th>
@@ -43,7 +45,7 @@ function Cart(props) {
         })}
         ;
       </Table>
-
+      <Parent 이름="존박1" 나이="20"></Parent>
       {props.alert열렸니 === true ? (
         <div className="my-alert2">
           <p>지금 구매하시면 신규할인 20%</p>
@@ -77,6 +79,34 @@ function state를props화(state) {
     alert열렸니: state.reducer2,
   }; // state 라는 이름의 props로 바꿔주셈
 }
+
+// props나 state가 변경이 되면
+// 그거 쓰는 HTML 전부 재렌더링이 됨
+// memo()를 사용하면 불필요한 재렌더링 막기 가능
+function Parent(props) {
+  return (
+    <div>
+      <Child1 이름={props.이름}></Child1>
+      <Child2 나이={props.나이}></Child2>
+    </div>
+  );
+}
+
+function Child1(props) {
+  useEffect(() => {
+    console.log("렌더링됨1");
+  });
+  return <div>1111</div>;
+}
+
+// function을 memo로 감싸기.
+// 재 렌더링이 되지 않음
+let Child2 = memo(function (props) {
+  useEffect(() => {
+    console.log("렌더링됨2");
+  });
+  return <div>222</div>;
+});
 
 //export default connect(state를props화)(Cart);
 export default Cart;
