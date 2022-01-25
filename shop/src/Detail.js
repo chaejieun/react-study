@@ -64,6 +64,7 @@ function Detail(props) {
   // useEffect
   // LifeCycle의 Hook과 같은 기능을 함
   // 컴포넌트가 mount / update / 될 때 특정 코드를 실행할 수 있음
+
   useEffect(() => {
     // 2초 후에 my-alert2창을 사라지게 해주세요
     let 타이머 = setTimeout(() => {
@@ -81,6 +82,22 @@ function Detail(props) {
   let history = useHistory();
   let { id } = useParams(); // 리액트 라우터의 useParams 훅
   let 찾은상품 = props.shoes.find((x) => x.id == id);
+
+  useEffect(() => {
+    var arr = [];
+    if (localStorage.getItem("arr") == null) {
+      arr.push(id);
+      localStorage.setItem("arr", arr);
+    } else {
+      var arr = localStorage.getItem("arr");
+      arr = JSON.parse(arr);
+      let copyArr = [...arr];
+      if (!arr.includes(id)) {
+        copyArr.push(id);
+        return localStorage.setItem("arr", copyArr);
+      }
+    }
+  }, []);
 
   return (
     <div className="container">
