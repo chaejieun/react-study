@@ -1,7 +1,27 @@
 {
   "dependencies": {
     "axios": "^0.24.0",
-    "react-router-dom": "5",
-    "homepage": "http://codingapple.com/blog"
-  }
+    "express": "^4.17.2",
+    "homepage": "http://codingapple.com/blog",
+    "react-router-dom": "5"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "react-study",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://chaejieun@github.com/chaejieun/react-study.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chaejieun/react-study/issues"
+  },
+  "homepage": "https://github.com/chaejieun/react-study#readme"
 }

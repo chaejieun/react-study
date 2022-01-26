@@ -84,19 +84,17 @@ function Detail(props) {
   let 찾은상품 = props.shoes.find((x) => x.id == id);
 
   useEffect(() => {
-    var arr = [];
-    if (localStorage.getItem("arr") == null) {
-      arr.push(id);
-      localStorage.setItem("arr", arr);
+    var arr = localStorage.getItem("watched");
+    if (arr == null) {
+      arr = [];
     } else {
-      var arr = localStorage.getItem("arr");
       arr = JSON.parse(arr);
-      let copyArr = [...arr];
-      if (!arr.includes(id)) {
-        copyArr.push(id);
-        return localStorage.setItem("arr", copyArr);
-      }
     }
+
+    arr.push(id);
+    arr = new Set(arr);
+    arr = [...arr];
+    localStorage.setItem("watched", JSON.stringify(arr));
   }, []);
 
   return (
